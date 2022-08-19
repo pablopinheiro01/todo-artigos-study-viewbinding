@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alura.todo.R
+import br.com.alura.todo.databinding.ItemNotaBinding
 import br.com.alura.todo.model.Nota
 
 class ListaNotasAdapter(
@@ -20,15 +21,15 @@ class ListaNotasAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = ViewHolder(
-        LayoutInflater
-            .from(context)
-            .inflate(
-                R.layout.item_nota,
-                parent,
-                false
-            )
-    )
+    ) : ViewHolder {
+        val binding = ItemNotaBinding.inflate(
+            LayoutInflater.from(context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
+    }
+
 
     override fun onBindViewHolder(
         holder: ViewHolder,
@@ -46,11 +47,10 @@ class ListaNotasAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-
-        private val titulo = itemView.findViewById<TextView>(R.id.item_nota_titulo)
-        private val descricao = itemView.findViewById<TextView>(R.id.item_nota_descricao)
+    class ViewHolder(binding: ItemNotaBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val titulo = binding.itemNotaTitulo
+        private val descricao = binding.itemNotaDescricao
 
         fun vincula(nota: Nota) {
             titulo.text = nota.titulo
